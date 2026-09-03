@@ -1,0 +1,49 @@
+// 健身打卡数据模型
+// Workout（一次训练）→ WorkoutExercise（一个动作）→ ExerciseSet（一组：重量 × 次数）
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Workout {
+  id        String   @id @default(cuid())
+  date      DateTime @db.Date // 训练日期（只存日期，不带时间）
+  note      String   @default("") @db.Text // 备注
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exercises WorkoutExercise[]
+
+  @@index([date])
+}
+
+model WorkoutExercise {
+  id        String  @id @default(cuid())
+  workoutId String
+  name      String // 动作名称
+  part      String  @default("自定义") // 身体部位
+  order     Int     @default(0) // 页面显示顺序
+
+  workout Workout        @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  sets    ExerciseSet[]
+
+  @@index([workoutId])
+}
+
+model ExerciseSet {
+  id         String @id @default(cuid())
+  exerciseId String
+  weight     Float // 重量 kg（自重填 0）
+  reps       Int // 次数
+  order      Int    @default(0) // 组的顺序
+
+  exercise WorkoutExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([exerciseId])
+}

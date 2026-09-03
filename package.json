@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.mjs"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "next": "15.4.6",
     "react": "19.1.1",
     "react-dom": "19.1.1"
@@ -16,6 +19,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prisma": "^6.19.3",
     "typescript": "^5"
   }
 }

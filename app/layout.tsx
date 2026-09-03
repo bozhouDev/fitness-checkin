@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { StoreProvider } from "@/lib/store";
 import BottomNav from "@/components/BottomNav";
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body>
-        <StoreProvider>{children}</StoreProvider>
+        {children}
         <BottomNav />
       </body>
     </html>
